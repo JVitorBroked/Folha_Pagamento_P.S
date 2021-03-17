@@ -19,4 +19,9 @@ public class empregado {
     public String getNome(){
         return this.nome;
     }
+    public String print_employee_info(){
+        return "Name: " + this.nome + 
+                "\nAddress: " + this.endereco;
+ 
+    }
 }
