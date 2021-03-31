@@ -5,7 +5,7 @@ public class _main{
 
     public static void main(String[] args){
 
-        ArrayList<empregado> lista_empregados = new ArrayList<empregado>();
+        ArrayList<Employee> lista_empregados = new ArrayList<Employee>();
         Scanner inp = new Scanner(System.in);
         
         while(true){    
@@ -54,7 +54,7 @@ public class _main{
         }
     }
 
-    public static void adicionar_empregado(ArrayList<empregado> lista_de_empregados){
+    public static void adicionar_empregado(ArrayList<Employee> lista_de_empregados){
 
         Scanner input = new Scanner(System.in);
         System.out.print("Digite o nome do empregado: ");
@@ -78,6 +78,11 @@ public class _main{
         if(op.equals("S")|| op.equals("s")){
             adicionar_empregado(lista_de_empregados);
         }
+    }
+    public static void Remove_employee(String nome, int number_register, ArrayList<Employee> lista_de_empregados){
+
+        
+        
     }
     public static void listar(ArrayList<empregado> lista_de_empregados, Scanner inp){
         if(lista_de_empregados.size() <= 0){
