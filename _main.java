@@ -1,8 +1,9 @@
+import Class.*;
+
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import Class.*;
 
 public class _main{
 
@@ -47,26 +48,17 @@ public class _main{
                     run_payment_today(lista_empregados, inp);
                     break;
                 case 8:
-                   listar_cartao_pointo(lista_empregados, inp); 
+                   //listar_cartao_pointo(lista_empregados, inp);
+                    System.out.println("Building...");
+                    handle_interface();
                     break;
                 case 9:
-
-                    System.out.print("DIGITE EMPREGADO PRA VER VENDAS: ");
-                    nome = inp.nextLine();
-                    Commissioned emp = find_employee_Commissioned(nome, lista_empregados);
-                    
-                    if(emp != null){
-                        emp.listar_vendas();
-                    }else{
-                        System.out.println("EMPREGADO NAO ENCONTRADO");
-                    }              
-
-                    System.out.print("TECLE ENTER PARA CONTINUAR");
-                    inp.nextLine();
-                    
+                    change_payment_schedule(lista_empregados, inp);
                     break;
                 case 10:
-                    listar_services_usados(lista_empregados, inp);
+                    //listar_services_usados(lista_empregados, inp);
+                    System.out.println("Building...");
+                    handle_interface();
                     break;
                 case 11:
                     Next_Payment_day(lista_empregados, inp);
@@ -79,6 +71,18 @@ public class _main{
                     break;
                 case 14:
                     change_day_of_payment(lista_empregados, inp);
+                    break;
+                case 15:
+                    System.out.print("DIGITE EMPREGADO PRA VER VENDAS: ");
+                    nome = inp.nextLine();
+                    Commissioned emp = find_employee_Commissioned(nome, lista_empregados);
+                
+                    if(emp != null){
+                        emp.listar_vendas();
+                    }else{
+                        System.out.println("EMPREGADO NAO ENCONTRADO");
+                    }              
+                    handle_interface();
                     break;
                 default:
                     System.out.println("opcao invalida");
@@ -181,6 +185,7 @@ public class _main{
         String pm = input.nextLine();
         change_payment_method((lista_de_empregados.get(lista_de_empregados.size()-1)), pm);
 
+        System.out.printf("ID gerado para %s: %s \n", nome, (lista_de_empregados.get(lista_de_empregados.size()-1)).getId().toString());
 
         System.out.printf("%s ADICIONADO COM SUCESSO\nDESEJA ADICIONAR OUTRO EMPREGADO S/N: ", nome);
         String o = input.nextLine();
@@ -242,7 +247,7 @@ public class _main{
             if(employee.getNome().equals(nome)){
 
                 System.out.println("EMPREGADO " + employee.getNome() + " encontrado");
-                System.out.print("OQUE DESEJA ALTEAR!\n1 - Nome\n2 - Endereco\n3 - Tipo de Empregado\n4 - Metodo de pagamento\n5 - Pertencimento ao sindicato\n6 - Taxa sindical\nDigite a opção: ");                
+                System.out.print("OQUE DESEJA ALTERAR!\n1 - Nome\n2 - Endereco\n3 - Tipo de Empregado\n4 - Metodo de pagamento\n5 - Pertencimento ao sindicato\n6 - Taxa sindical\nDigite a opção: ");                
                 int opcao = inp.nextInt();
                 inp.nextLine();
                 switch (opcao) {
@@ -259,10 +264,13 @@ public class _main{
                         employee.setEndereco(new_adress);
                         break;
                     case 3:
-                        System.out.print("ALTERAR PARA QUAL TIPO: ");
+                        System.out.print("ALTERAR PARA QUAL TIPO?(h - hourly, c - commissioned, s - salaried): ");
                         String new_type = inp.nextLine();
-                        
-                        //tratar atlerarcao de tipo class
+                        Employee new_em = alterar_classe(employee, new_type);
+                        if(new_em != null){
+                            lista_de_empregados.remove(employee);
+                            lista_de_empregados.add(new_em);
+                        }
                         break;
                     case 4:
                         System.out.print("ALTERAR PARA QUAL METODO(correios, deposito, cheque)?: ");
@@ -282,8 +290,7 @@ public class _main{
             break;
             }
         }
-        System.out.println("TECLE ENTER PARA CONTINUAR");
-        inp.nextLine();
+        handle_interface();
     }
 
     public static void listar(ArrayList<Employee> lista_de_empregados, Scanner inp){
@@ -429,17 +436,22 @@ public class _main{
     public static void processar_pagamento(Employee employee){
 
         double syndicate_taxe = 0;
+        double syndicate_taxe_month = 0;
         double value = 0;
         if(employee.getSyndicate() != null){
             syndicate_taxe += employee.getSyndicate().total_value_to_pay();
+            employee.getSyndicate().remove_all_services();
+            if(employee.getPaymentschedule().getLast_payment() == null || 
+                employee.getPaymentschedule().getLast_payment().getMonthValue() != 
+                        LocalDate.now().getMonthValue()){
+                syndicate_taxe_month = employee.getSyndicate().getMonthly_fee();
+            }
         }
-
         if(employee instanceof Hourly){
             Hourly emp = (Hourly)employee;
             value = emp.calculate_commission();
             emp.clear_time_cards();
-            value -= syndicate_taxe;
-            System.out.println("Valor das taxas a pagar: " + syndicate_taxe);
+
             
         }else if(employee instanceof Commissioned){
 
@@ -447,18 +459,15 @@ public class _main{
             value = emp.total_sales() * emp.getComission();
             value += emp.getSalary();
             emp.clear_sales();
-            value += emp.getSalary();
-            value -= syndicate_taxe;
-            System.out.println("Valor das taxas a pagar: " + syndicate_taxe);
                     
         }else{
             Salaried emp = (Salaried) employee;
-            value = emp.getSalary();
-            value -= syndicate_taxe;
-            value -= emp.getSyndicate().getMonthly_fee();
-            System.out.println("TAXA DE SERVICOS A PAGAR: " + syndicate_taxe + " | TAXA MENSAL: " + emp.getSyndicate().getMonthly_fee());
-            
+            value = emp.getSalary();     
         }
+            value -= syndicate_taxe;
+            value -= syndicate_taxe_month;
+            System.out.println("Valor das taxas dos servicos usados do sindicato: " + syndicate_taxe + "\nValor da taxa mensal sindicato: " + syndicate_taxe_month);
+        
             employee.getPaymentschedule().setLast_payment(employee.getPaymentschedule().getNextDatePayment());
             employee.getPaymentschedule().setNextDatePayment(employee.getPaymentschedule().Processar_new_date_to_pay(employee.getPaymentschedule().getSchedule()));
 
@@ -488,7 +497,6 @@ public class _main{
             employee.add_syndicate(taxe);
             System.out.println("AGORA O EMPREGADO " + employee.getNome() + " PERTENCE AO SINDICATO");
         }
-        input.nextLine();
     }
     public static void change_monthly_fee(Employee employee, Scanner input){
 
@@ -501,5 +509,67 @@ public class _main{
         }
         System.out.println("TECLE ENTER PARA CONTINUAR");
         input.nextLine();       
+    }
+
+    public static Employee alterar_classe(Employee employee, String new_type){
+
+        //add new object and remove the old one
+
+        if(new_type.equals("h") && !(employee instanceof Hourly)){
+            
+            Hourly new_emp = new Hourly(employee.getNome(), employee.getEndereco(), 
+                                        handle_input_double("DIGITE O VALOR DA HORA DO EMPREGADO: "));
+
+            new_emp.setSyndicate(employee.getSyndicate());
+            new_emp.setPaymentMethod(employee.getPaymentMethod());
+            return new_emp;
+
+        }else if(new_type.equals("c") && !(employee instanceof Commissioned)){
+
+            Commissioned new_emp = new Commissioned(employee.getNome(), employee.getEndereco(),
+                                                        handle_input_double("Qual o salario do empregado?: ")
+                                                                ,handle_input_double("Qual a comissao do empregado?: "));
+            new_emp.setSyndicate(employee.getSyndicate());
+            new_emp.setPaymentMethod(employee.getPaymentMethod());
+            return new_emp;
+
+        }else if(new_type.equals("s") && !(employee instanceof Salaried)){
+
+            Salaried new_emp = new Salaried(employee.getNome(), employee.getEndereco(),
+                                                handle_input_double("QUAL O SALARIO DO EMPREGADO?: "));
+
+            new_emp.setSyndicate(employee.getSyndicate());
+            new_emp.setPaymentMethod(employee.getPaymentMethod());
+            return new_emp;
+
+        }else{
+            System.out.println("EMPREGADO JA É DO TIPO ESCOLHIDO");
+            return null;
+        }
+    }
+
+    public static double handle_input_double(String out){
+        Scanner in = new Scanner(System.in);
+        System.out.print(out);
+        double value = in.nextDouble();
+        in.nextLine();
+        return value;
+    }
+    public static void handle_interface(){
+        Scanner in = new Scanner(System.in);
+        System.out.print("TECLE ENTER PARA CONTINUAR");
+        in.nextLine();
+    }
+    public static void change_payment_schedule(ArrayList<Employee> lista_de_empregados, Scanner inp){
+        System.out.print("DIGITE O EMPREGADO PARA MUDAR A AGENDA DE PAGAMENTO: ");
+        Employee emp = find_any_empleyee(lista_de_empregados, inp.nextLine());
+        if(emp != null){
+            System.out.print("QUAL A NOVA AGENDA DE PAGAMENTO(semanal, bisemanal, mensal): ");
+            emp.addPaymentSchedule(inp.nextLine());
+            System.out.println("AGENDA DE PAGAMENTO ALTERADA");
+        }else{
+            System.out.println("EMPREGADO NAO ENCONTRADO");
+        }
+        handle_interface();
     }
 }
