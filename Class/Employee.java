@@ -1,12 +1,13 @@
 package Class;
 import Interfaces.*;
 import java.util.Scanner;
+import java.util.UUID;
 
 public abstract class Employee {
 
     private String nome;
     private String endereco;
-    private int id;
+    private UUID id;
     private Syndicate syndicate;
     private PaymentSchedule paymentschedule;
     private PaymentMethod paymentMethod;
@@ -15,6 +16,7 @@ public abstract class Employee {
 
     public Employee(String nome, String endereco){
         this.nome = nome;
+        this.id = UUID.randomUUID();
         this.endereco = endereco;
         this.syndicate = null;
         //adicionar metodo pra adicinar id aleatario
@@ -26,6 +28,9 @@ public abstract class Employee {
 
     public String getEndereco() {
         return endereco;
+    }
+    public UUID getId() {
+        return id;
     }
 
     public void setNome(String nome) {
@@ -67,6 +72,11 @@ public abstract class Employee {
 
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
+    }
+
+    
+    public void setPaymentMethod(PaymentMethod pm){
+        this.paymentMethod = pm;
     }
 
     public void setPaymentMethod(String pm) {
