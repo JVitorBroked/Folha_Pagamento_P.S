@@ -29,7 +29,7 @@ public class Hourly extends Employee {
         
         double value = 0;
         for (Time_card time_card : times_cards) {
-            value += (time_card.getTime_in() - time_card.getTime_out()) * this.getHour_rate();           
+            value += (time_card.getTime_out() - time_card.getTime_in()) * this.getHour_rate();           
         }
         return value;
     }
