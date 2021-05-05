@@ -38,12 +38,12 @@ impostos deduzidos do salário.
         pagamento para cada empregado desde a última vez em que este foi pago.
         
        
-       CODE SMELLS
+#####CODE SMELLS
 
 Problemas de Design presentem no código:
 
 
-1-Duplicated Code.
+*1-Duplicated Code.*
     Na classe _main existem três métodos estáticos que possuem objetivos e código similares, porem trabalham com classes diferentes, Line: 94 á 126;
     METODOS: find_employee_comissioned(), find_employee_hourly(), find_any_employee().
 
