@@ -49,10 +49,12 @@ Problemas de Design presentem no código:
 
 
 2-Duplicated Code.
+
     Vários métodos presentes na classe _main trabalham com entrada e saída de dados, como o método adicionar_empregado(), lancar_venda(),alterar_dados() etc. Tais         métodos utilizam trechos de código muito similares para tratar o problema mencionado.
 
 
 4-Long Method.
+
     No método alterar_classe() da classe _main é usado alguns valores de um objeto Employee como parâmetro para o métodos construtores. Line 520, 529, 538.
 
 
