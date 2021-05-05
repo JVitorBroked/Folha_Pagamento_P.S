@@ -41,13 +41,21 @@ impostos deduzidos do salário.
        CODE SMELLS
 
 Problemas de Design presentem no código:
+
+
 1-Duplicated Code.
     Na classe _main existem três métodos estáticos que possuem objetivos e código similares, porem trabalham com classes diferentes, Line: 94 á 126;
     METODOS: find_employee_comissioned(), find_employee_hourly(), find_any_employee().
+
+
 2-Duplicated Code.
     Vários métodos presentes na classe _main trabalham com entrada e saída de dados, como o método adicionar_empregado(), lancar_venda(),alterar_dados() etc. Tais         métodos utilizam trechos de código muito similares para tratar o problema mencionado.
+
+
 4-Long Method.
     No método alterar_classe() da classe _main é usado alguns valores de um objeto Employee como parâmetro para o métodos construtores. Line 520, 529, 538.
+
+
 5-Long Method.
     Muitas variáveis temporárias são usadas nos métodos estático lancar_venda() e adicionar_empregado() da classe _main. 
 6- Long Method.
