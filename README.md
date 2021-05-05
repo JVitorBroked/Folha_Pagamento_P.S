@@ -44,37 +44,41 @@ Problemas de Design presentem no código:
 
 
 **1. Duplicated Code.**
-    Na classe _main existem três métodos estáticos que possuem objetivos e código similares, porem trabalham com classes diferentes, Line: 94 á 126;
-    METODOS: find_employee_comissioned(), find_employee_hourly(), find_any_employee().
+       - Na classe _main existem três métodos estáticos que possuem objetivos e código similares, porem trabalham com classes diferentes, Line: 94 á 126;
+         METODOS: find_employee_comissioned(), find_employee_hourly(), find_any_employee().
 
 
 **2. Duplicated Code.**
-
-    Vários métodos presentes na classe _main trabalham com entrada e saída de dados, como o método adicionar_empregado(), lancar_venda(),alterar_dados() etc. Tais         métodos utilizam trechos de código muito similares para tratar o problema mencionado.
+      - Vários métodos presentes na classe _main trabalham com entrada e saída de dados, como o método adicionar_empregado(), lancar_venda(),alterar_dados() etc. Tais         métodos utilizam trechos de código muito similares para tratar o problema mencionado.
 
 **3. Long Method.**
-
-    No método alterar_classe() da classe _main é usado alguns valores de um objeto Employee como parâmetro para o métodos construtores. Line 520, 529, 538.
-
+      - No método alterar_classe() da classe _main é usado alguns valores de um objeto Employee como parâmetro para o métodos construtores. Line 520, 529, 538.
 
 **4. Long Method.**
+      - Muitas variáveis temporárias são usadas nos métodos estático lancar_venda() e adicionar_empregado() da classe _main. 
 
-    Muitas variáveis temporárias são usadas nos métodos estático lancar_venda() e adicionar_empregado() da classe _main. 
 **5. Long Method.**
     O método adicionar_empregado() da classe _main possui ao todo 5 ifs, onde cada condicional possui uma grande quantidade de código e similar. Line 129.
-7- Long Method.
+
+**6. Long Method.**
     Os metodos processar_pagamento() e alterar_classe() na classe _main possui muitos condicionais que trabalham com diferentes interfaces.
-8-Long Method.
+
+**7. Long Method.**
     O método alterar_classe() usa diferentes condicionais para logica de retorno 
-9-Large Class.
+
+**8. Large Class.**
     A classe _main possui diversos métodos e dados com diferentes propósitos. No qual possui em torno de 575 linhas.
-10-Large Class. 
+
+**9. Large Class.**
     A classe Employee possui ao todo 6 atributos
-11- Feature Envy.
+    
+**10. Feature Envy.**
     Classe _main realiza diversas tarefas que incluem a classe Employee
-12-Message chains e Long Method.
+    
+**11. Message chains e Long Method.**
     O método processor_pagamento() possui longos encadeamentos na linha 471, 472. Possui também na linha 441 a 448.
-13- Data class.
+    
+**12- Data class.**
     Há no projeto três classes que são usadas basicamente para organizar dados, são elas:
     Sale.java, Union_service.java e Tme_card.
 
