@@ -89,8 +89,7 @@ Problemas de Design presentem no código:
 > O método processor_pagamento() possui longos encadeamentos na linha 471, 472. Possui também na linha 441 a 448.
     
 **12- Data class.**
-> Há no projeto três classes que são usadas basicamente para organizar dados, 
-são elas: 
->Sale.java, Union_service.java e Tme_card.
+> Há no projeto três classes que são usadas basicamente para organizar dados, são elas: 
+Sale.java, Union_service.java e Tme_card.
 
 </center>
