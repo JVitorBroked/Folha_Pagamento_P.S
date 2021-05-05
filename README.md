@@ -37,7 +37,10 @@ impostos deduzidos do salário.
         naquele dia. O sistema receberá a data até a qual o pagamento deve ser feito e calculará o
         pagamento para cada empregado desde a última vez em que este foi pago.
         
-       
+        
+        
+---
+
 #### CODE SMELLS
 
 Problemas de Design presentem no código:
